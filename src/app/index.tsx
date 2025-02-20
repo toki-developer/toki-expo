@@ -9,7 +9,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Hello Toki, EAS Hosting</Text>
+      <Text>Hello EAS Hosting</Text>
     </View>
   );
 }
