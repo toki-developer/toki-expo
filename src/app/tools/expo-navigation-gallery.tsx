@@ -1,33 +1,19 @@
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 import {
-  Adapt,
   Button,
   Card,
   Dialog,
-  Fieldset,
-  Form,
-  H2,
-  Input,
-  Label,
-  ListItem,
   Paragraph,
   ScrollView,
-  Sheet,
   Stack,
   Text,
-  TooltipSimple,
   Unspaced,
   useMedia,
-  useTheme,
   View,
-  XStack,
-  YGroup,
 } from "tamagui";
 import { tokens } from "@/src/utils/tamagui-config/token/token";
-import { Linking, StyleSheet, TouchableOpacity } from "react-native";
-import { Link } from "expo-router";
-import Feather from "@expo/vector-icons/Feather";
+import { TouchableOpacity } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import CodeHighlighter from "react-native-code-highlighter";
