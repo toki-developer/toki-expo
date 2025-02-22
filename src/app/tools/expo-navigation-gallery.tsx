@@ -145,7 +145,6 @@ function NavigationItemWithModal(props: ExpoNavigationGalleryItem) {
           <ScrollView>
             <Stack
               gap={media.md ? "$md" : "$xl"}
-              // flexDirection={media.md ? "row-reverse" : "column"}
               flexDirection="column"
               $md={{ flexDirection: "row" }}
             >
@@ -208,7 +207,7 @@ function CodeBlock({
         hljsStyle={atomOneDarkReasonable}
         language="tsx"
         scrollViewProps={{
-          contentContainerStyle: { padding: 16, width: "100%" },
+          contentContainerStyle: { padding: 16 },
         }}
       >
         {code}
