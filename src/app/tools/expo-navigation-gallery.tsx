@@ -1,14 +1,23 @@
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 import {
+  Adapt,
   Button,
   Card,
+  Dialog,
+  Fieldset,
   Form,
   H2,
+  Input,
+  Label,
   ListItem,
   Paragraph,
+  ScrollView,
+  Sheet,
   Stack,
   Text,
+  TooltipSimple,
+  Unspaced,
   useMedia,
   useTheme,
   View,
@@ -19,6 +28,15 @@ import { tokens } from "@/src/utils/tamagui-config/token/token";
 import { Linking, StyleSheet, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
+import React from "react";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import CodeHighlighter from "react-native-code-highlighter";
+import { atomOneDarkReasonable } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {
+  EXPO_NAVIGATION_GALLERY_DATA,
+  ExpoNavigationGalleryItem,
+} from "@/src/constants/expo-navigation-gallery-data";
+import { GoToGitHubLink } from "@/src/components/parts/GitHubLink";
 
 export default function ToolsExpoNavigationGallery() {
   return (
@@ -28,42 +46,13 @@ export default function ToolsExpoNavigationGallery() {
   );
 }
 
-const DATA = [
-  {
-    imgSource: require("../../../assets/app/tools-expo-navigaitions/gif/stack.gif"),
-    name: "Stack",
-  },
-  {
-    imgSource: require("../../../assets/app/tools-expo-navigaitions/gif/tab.gif"),
-    name: "Tab",
-  },
-  {
-    imgSource: require("../../../assets/app/tools-expo-navigaitions/gif/modal.gif"),
-    name: "Modal",
-  },
-  {
-    imgSource: require("../../../assets/app/tools-expo-navigaitions/gif/drawer.gif"),
-    name: "Drawer",
-  },
-  {
-    imgSource: require("../../../assets/app/tools-expo-navigaitions/gif/search.gif"),
-    name: "Search",
-  },
-  {
-    imgSource: require("../../../assets/app/tools-expo-navigaitions/gif/top-tab.gif"),
-    name: "Material Top Tab",
-  },
-] as const;
-
-type NavigationItem = (typeof DATA)[number];
-
 function NavigationList() {
   const media = useMedia();
   const numColumns = media.lg ? 4 : media.md ? 3 : media.xxs ? 2 : 1;
 
   return (
     <FlashList
-      data={DATA}
+      data={EXPO_NAVIGATION_GALLERY_DATA}
       keyExtractor={(item) => item.name}
       estimatedItemSize={400}
       numColumns={numColumns}
@@ -76,7 +65,8 @@ function NavigationList() {
             style={{ alignItems: "center" }}
             mt={index >= numColumns ? "$2xl" : undefined}
           >
-            <NavigationItem {...item} />
+            <NavigationItemWithModal {...item} />
+            {/* <NavigationItem {...item} /> */}
           </View>
         );
       }}
@@ -84,22 +74,162 @@ function NavigationList() {
   );
 }
 
-// height:640、width:295
-const imgRate = 640 / 295;
-function NavigationItem({ imgSource, name }: NavigationItem) {
+const imgRate = 640 / 295; // height:640、width:295
+function GifImage({ source, width }: { source: string; width: number }) {
+  return (
+    <Image
+      source={source}
+      style={{ width: width, height: width * imgRate }}
+      contentFit="contain"
+    />
+  );
+}
+
+function NavigationItem({ imgSource, name }: ExpoNavigationGalleryItem) {
   const media = useMedia();
   const width = media.xs ? 240 : 140;
 
   return (
     <View>
-      <Image
-        source={imgSource}
-        style={{ width: width, height: width * imgRate }}
-        contentFit="contain"
-      />
+      <GifImage source={imgSource} width={width} />
       <Text mt="$md" style={{ textAlign: "center" }}>
         {name}
       </Text>
+    </View>
+  );
+}
+
+function NavigationItemWithModal(props: ExpoNavigationGalleryItem) {
+  const media = useMedia();
+
+  const { imgSource, name, code, code2 } = props;
+  return (
+    <Dialog modal>
+      <Dialog.Trigger asChild>
+        <TouchableOpacity>
+          <NavigationItem {...props} />
+        </TouchableOpacity>
+      </Dialog.Trigger>
+
+      {/* <Adapt when="sm" platform="touch">
+        <Sheet animation="medium" zIndex={200000} modal dismissOnSnapToBottom>
+          <Sheet.Frame p="$sm" gap="$sm">
+            <Adapt.Contents />
+          </Sheet.Frame>
+          <Sheet.Overlay
+            background="$shadow6"
+            animation="lazy"
+            enterStyle={{ opacity: 0 }}
+            exitStyle={{ opacity: 0 }}
+          />
+        </Sheet>
+      </Adapt> */}
+
+      <Dialog.Portal>
+        <Dialog.Overlay
+          key="overlay"
+          background="$shadow6"
+          animation="slow"
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}
+        />
+        <Dialog.Content
+          bordered
+          elevate
+          key="content"
+          animateOnly={["transform", "opacity"]}
+          animation={[
+            "quicker",
+            {
+              opacity: {
+                overshootClamping: true,
+              },
+            },
+          ]}
+          enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+          exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+          gap="$md"
+          style={{
+            maxWidth: "calc(100% - 32px)",
+            maxHeight: "calc(100% - 48px)",
+          }}
+          p="$xl"
+        >
+          <Dialog.Title>{name}</Dialog.Title>
+          <ScrollView>
+            <Stack
+              gap={media.md ? "$md" : "$xl"}
+              // flexDirection={media.md ? "row-reverse" : "column"}
+              flexDirection="column"
+              $md={{ flexDirection: "row" }}
+            >
+              <View
+                px={"$2xl"}
+                style={{ justifyContent: "center", alignItems: "center" }}
+                gap="$4xl"
+              >
+                <CodeBlock
+                  code={code.codeStr}
+                  codeTitle={code.title}
+                  href={code.githubUrl}
+                />
+                {code2 ? (
+                  <CodeBlock
+                    code={code2.codeStr}
+                    codeTitle={code2.title}
+                    href={code2.githubUrl}
+                  />
+                ) : null}
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <GifImage source={imgSource} width={media.md ? 280 : 200} />
+              </View>
+            </Stack>
+          </ScrollView>
+          <Unspaced>
+            <Dialog.Close asChild>
+              <Button
+                position="absolute"
+                style={{ top: 8, right: 8 }}
+                size="$2"
+                circular
+                icon={<AntDesign name="close" size={20} />}
+              />
+            </Dialog.Close>
+          </Unspaced>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog>
+  );
+}
+
+function CodeBlock({
+  code,
+  codeTitle,
+  href,
+}: {
+  code: string;
+  codeTitle?: string;
+  href: string;
+}) {
+  return (
+    <View width="100%">
+      {codeTitle ? (
+        // TODO: colorHoverをlow-context-color的なものに変更する (テーマを考えた後)
+        <Paragraph color="$colorHover">{codeTitle}</Paragraph>
+      ) : null}
+      <CodeHighlighter
+        hljsStyle={atomOneDarkReasonable}
+        language="tsx"
+        scrollViewProps={{
+          contentContainerStyle: { padding: 16, width: "100%" },
+        }}
+      >
+        {code}
+      </CodeHighlighter>
+      <View style={{ alignItems: "flex-end" }} mt="$md">
+        <GoToGitHubLink href={href} />
+      </View>
     </View>
   );
 }
@@ -121,27 +251,12 @@ function FooterComponent() {
           IOS Simulatorを画面収録したデータです。随時追加する予定です。
         </Paragraph>
       </Stack>
-      <Card.Footer padded justify="flex-end">
+      <Card.Footer padded justify="flex-end" gap="$md">
         {/* Zennも追加 */}
-        <TouchableOpacity
-          onPress={() =>
-            Linking.openURL(
-              "https://github.com/toki-developer/expo-pagination-example"
-            )
-          }
-        >
-          <Paragraph
-            transition="color 0.8s"
-            display="flex"
-            style={{ alignItems: "center" }}
-            hoverStyle={{ color: "greenyellow" }}
-          >
-            GitHub
-            <View display="inline" ml="$sm">
-              <Feather name="external-link" size={20} color="inherit" />
-            </View>
-          </Paragraph>
-        </TouchableOpacity>
+        <GoToGitHubLink
+          href={"https://github.com/toki-developer/expo-pagination-example"}
+          title="expo-pagination-example (GitHub)"
+        />
       </Card.Footer>
     </Card>
   );
