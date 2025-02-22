@@ -27134,6 +27134,9 @@
       },
       "2xs": {
         "minWidth": 340
+      },
+      "xxs": {
+        "minWidth": 320
       }
     },
     "shorthands": {

@@ -29979,10 +29979,10 @@ var useAdaptIsActiveGiven = /* @__PURE__ */ __name(({
   when,
   platform: platform2
 }) => {
-  const media2 = (0, import_core6.useMedia)();
+  const media3 = (0, import_core6.useMedia)();
   if (when == null && platform2 == null) return false;
   let enabled = false;
-  return platform2 === "touch" ? enabled = isTouchable : platform2 === "native" ? enabled = !isWeb : platform2 === "web" ? enabled = isWeb : platform2 === "ios" ? enabled = isIos : platform2 === "android" && (enabled = isAndroid), platform2 && enabled == false ? false : (when && typeof when == "string" && (enabled = media2[when]), enabled);
+  return platform2 === "touch" ? enabled = isTouchable : platform2 === "native" ? enabled = !isWeb : platform2 === "web" ? enabled = isWeb : platform2 === "ios" ? enabled = isIos : platform2 === "android" && (enabled = isAndroid), platform2 && enabled == false ? false : (when && typeof when == "string" && (enabled = media3[when]), enabled);
 }, "useAdaptIsActiveGiven");
 var useAdaptIsActive = /* @__PURE__ */ __name((scope) => {
   const props = useAdaptContext(scope);
@@ -33638,8 +33638,8 @@ var import_web15 = require("@tamagui/core");
 var matchMedia = globalThis.matchMedia;
 
 // node_modules/@tamagui/react-native-media-driver/dist/esm/createMedia.mjs
-function createMedia(media2) {
-  return (0, import_web15.setupMatchMedia)(matchMedia), media2;
+function createMedia(media3) {
+  return (0, import_web15.setupMatchMedia)(matchMedia), media3;
 }
 __name(createMedia, "createMedia");
 
@@ -44138,7 +44138,7 @@ var Text4 = (0, import_core55.styled)(import_core55.Text, {
 // node_modules/tamagui/dist/esm/index.mjs
 var import_core56 = require("@tamagui/core");
 
-// src/utils/tamagui-config/tokens/token.ts
+// src/utils/tamagui-config/token/token.ts
 var tokens2 = (0, import_core56.createTokens)({
   ...defaultConfig.tokens,
   space: {
@@ -44163,11 +44163,18 @@ var themes2 = {
   dark_blue: defaultConfig.themes.dark_blue
 };
 
+// src/utils/tamagui-config/media/media.ts
+var media2 = {
+  ...defaultConfig.media,
+  xxs: { minWidth: 320 }
+};
+
 // tamagui.config.ts
 var tamaguiConfig = createTamagui({
   ...defaultConfig,
   tokens: tokens2,
-  themes: themes2
+  themes: themes2,
+  media: media2
 });
 var tamagui_config_default = tamaguiConfig;
 // Annotate the CommonJS export names for ESM import in node:

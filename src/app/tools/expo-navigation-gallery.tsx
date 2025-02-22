@@ -9,12 +9,13 @@ import {
   Paragraph,
   Stack,
   Text,
+  useMedia,
   useTheme,
   View,
   XStack,
   YGroup,
 } from "tamagui";
-import { tokens } from "@/src/utils/tamagui-config/tokens/token";
+import { tokens } from "@/src/utils/tamagui-config/token/token";
 import { Linking, StyleSheet, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
@@ -57,7 +58,8 @@ const DATA = [
 type NavigationItem = (typeof DATA)[number];
 
 function NavigationList() {
-  const numColumns = 4;
+  const media = useMedia();
+  const numColumns = media.lg ? 4 : media.md ? 3 : media.xxs ? 2 : 1;
 
   return (
     <FlashList
@@ -82,12 +84,17 @@ function NavigationList() {
   );
 }
 
+// height:640、width:295
+const imgRate = 640 / 295;
 function NavigationItem({ imgSource, name }: NavigationItem) {
+  const media = useMedia();
+  const width = media.xs ? 240 : 140;
+
   return (
     <View>
       <Image
         source={imgSource}
-        style={{ width: 300, height: 400 }}
+        style={{ width: width, height: width * imgRate }}
         contentFit="contain"
       />
       <Text mt="$md" style={{ textAlign: "center" }}>
@@ -124,8 +131,10 @@ function FooterComponent() {
           }
         >
           <Paragraph
-            hoverStyle={{ color: "greenyellow" }}
             transition="color 0.8s"
+            display="flex"
+            style={{ alignItems: "center" }}
+            hoverStyle={{ color: "greenyellow" }}
           >
             GitHub
             <View display="inline" ml="$sm">
