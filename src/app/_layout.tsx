@@ -38,7 +38,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" options={{ headerTitle: "toki" }} />
           <Stack.Screen
             name="tools/expo-navigation-gallery"
-            options={{ headerTitle: "Navigation Gallery" }}
+            options={{ title: "Navigation Gallery" }}
           />
         </Stack>
       </ThemeProvider>

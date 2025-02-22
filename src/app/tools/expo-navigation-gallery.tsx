@@ -22,11 +22,18 @@ import {
   EXPO_NAVIGATION_GALLERY_DATA,
   ExpoNavigationGalleryItem,
 } from "@/src/constants/expo-navigation-gallery-data";
-import { GoToGitHubLink } from "@/src/components/parts/GitHubLink";
+import { GoToGitHubLink } from "@/src/components/parts/github-link";
+import { Meta } from "@/src/components/parts/meta";
 
 export default function ToolsExpoNavigationGallery() {
   return (
     <View flex={1} px="$xl">
+      <Meta
+        title="Navigation Gallery"
+        description="Expoでの画面遷移のギャラリーです。Gifとコードで確認できます。"
+        ogurl="https://toki-dev.vercel.app/tools/expo-navigation-gallery"
+        image={require("../../../assets/images/profile-icon.png")}
+      />
       <NavigationList />
     </View>
   );
