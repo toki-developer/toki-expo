@@ -1,10 +1,11 @@
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 import { Text, View } from "tamagui";
+import { tokens } from "@/tamagui.config";
 
-export default function ToolsExpoNavigations() {
+export default function ToolsExpoNavigationGallery() {
   return (
-    <View flex={1} px="$xl" py="$4xl">
+    <View flex={1} px="$xl">
       <NavigationList />
     </View>
   );
@@ -50,14 +51,20 @@ const NavigationList = () => {
           <View
             flex={1}
             style={{ alignItems: "center" }}
-            mt={index >= numColumns ? "$xl" : undefined}
+            mt={index >= numColumns ? "$2xl" : undefined}
           >
             <NavigationItem {...item} />
           </View>
         );
       }}
       estimatedItemSize={400}
-      numColumns={4}
+      numColumns={numColumns}
+      contentContainerStyle={{ paddingVertical: tokens.space["4xl"].val }}
+      // ListFooterComponent={
+      //   <View>
+      //     <Text>GitHub</Text>
+      //   </View>
+      // }
     />
   );
 };
