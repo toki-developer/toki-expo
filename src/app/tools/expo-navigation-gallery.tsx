@@ -32,7 +32,9 @@ export default function ToolsExpoNavigationGallery() {
         title="Navigation Gallery"
         description="Expoでの画面遷移のギャラリーです。Gifとコードで確認できます。"
         ogurl="https://toki-dev.vercel.app/tools/expo-navigation-gallery"
-        image={require("../../../assets/images/profile-icon.png").uri}
+        image={
+          "https://drive.usercontent.google.com/download?id=19sc692KL5glhd81f-42ggEyBtRXowOvu&export=view"
+        }
       />
       <NavigationList />
     </View>
