@@ -26833,8 +26833,7 @@ var require_dist = __commonJS({
 var tamagui_config_exports = {};
 __export(tamagui_config_exports, {
   default: () => tamagui_config_default,
-  tamaguiConfig: () => tamaguiConfig,
-  tokens: () => tokens2
+  tamaguiConfig: () => tamaguiConfig
 });
 module.exports = __toCommonJS(tamagui_config_exports);
 
@@ -27275,14 +27274,14 @@ var ThemeBuilder = class {
   }
   // for dev mode only really
   _addedThemes = [];
-  addThemes(themes2) {
+  addThemes(themes3) {
     return this._addedThemes.push({
       type: "themes",
-      args: [themes2]
+      args: [themes3]
     }), this.state.themes = {
       // as {} prevents generic string key merge messing up types
       ...this.state.themes,
-      ...themes2
+      ...themes3
     }, this;
   }
   // these wont be typed to save some complexity and because they don't need to be typed!
@@ -43066,7 +43065,7 @@ __name(makeContentId, "makeContentId");
 // node_modules/@tamagui/theme/dist/esm/_mutateTheme.mjs
 var import_web18 = require("@tamagui/core");
 function mutateThemes({
-  themes: themes2,
+  themes: themes3,
   batch,
   insertCSS = true,
   ...props
@@ -43075,7 +43074,7 @@ function mutateThemes({
   for (const {
     name,
     theme
-  } of themes2) {
+  } of themes3) {
     const res = _mutateTheme({
       ...props,
       name,
@@ -43141,11 +43140,11 @@ function updateThemeStates() {
   (0, import_web18.forceUpdateThemes)();
 }
 __name(updateThemeStates, "updateThemeStates");
-function insertThemeCSS(themes2, batch = false) {
+function insertThemeCSS(themes3, batch = false) {
   const config = (0, import_web18.getConfig)();
   let cssRules = [];
-  for (const themeName in themes2) {
-    const theme = themes2[themeName], rules = (0, import_web18.getThemeCSSRules)({
+  for (const themeName in themes3) {
+    const theme = themes3[themeName], rules = (0, import_web18.getThemeCSSRules)({
       config,
       themeName,
       names: [themeName],
@@ -43155,7 +43154,7 @@ function insertThemeCSS(themes2, batch = false) {
     cssRules = [...cssRules, ...rules], batch || updateStyle(`t_theme_style_${themeName}`, rules);
   }
   if (batch) {
-    const id = (0, import_web18.simpleHash)(typeof batch == "string" ? batch : Object.keys(themes2).join(""));
+    const id = (0, import_web18.simpleHash)(typeof batch == "string" ? batch : Object.keys(themes3).join(""));
     updateStyle(`t_theme_style_${id}`, cssRules);
   }
   return cssRules;
@@ -44139,7 +44138,7 @@ var Text4 = (0, import_core55.styled)(import_core55.Text, {
 // node_modules/tamagui/dist/esm/index.mjs
 var import_core56 = require("@tamagui/core");
 
-// tamagui.config.ts
+// src/utils/tamagui-config/tokens/token.ts
 var tokens2 = (0, import_core56.createTokens)({
   ...defaultConfig.tokens,
   space: {
@@ -44148,24 +44147,32 @@ var tokens2 = (0, import_core56.createTokens)({
     lg: 12,
     xl: 16,
     "2xl": 24,
-    "3xl": 32,
+    // "3xl": 32,
     "4xl": 40,
-    "5xl": 48,
-    "7xl": 64,
+    // "5xl": 48,
+    // "7xl": 64,
     true: 8
   }
 });
-var tamaguiConfig = createTamagui(
-  {
-    ...defaultConfig,
-    tokens: tokens2
-  }
-);
+
+// src/utils/tamagui-config/theme/theme.ts
+var themes2 = {
+  dark: defaultConfig.themes.dark,
+  light: defaultConfig.themes.light,
+  light_blue: defaultConfig.themes.light_blue,
+  dark_blue: defaultConfig.themes.dark_blue
+};
+
+// tamagui.config.ts
+var tamaguiConfig = createTamagui({
+  ...defaultConfig,
+  tokens: tokens2,
+  themes: themes2
+});
 var tamagui_config_default = tamaguiConfig;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  tamaguiConfig,
-  tokens
+  tamaguiConfig
 });
 /*! Bundled license information:
 

@@ -1,6 +1,4 @@
-import tamaguiConfig from "@/tamagui.config";
 import { SplashScreen, Stack } from "expo-router";
-import { useColorScheme } from "react-native";
 import { TamaguiProvider } from "tamagui";
 import {
   DarkTheme,
@@ -9,6 +7,7 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import tamaguiConfig from "@/tamagui.config";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +28,8 @@ export default function RootLayout() {
     return null;
   }
 
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
+  const colorScheme = "dark"; // TODO: テーマ設定後、両テーマでのデザイン検討, useColorSchemeを使う
 
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
@@ -37,8 +37,8 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{ headerTitle: "toki" }} />
           <Stack.Screen
-            name="tools/expo-navigations"
-            options={{ headerTitle: "" }}
+            name="tools/expo-navigation-gallery"
+            options={{ headerTitle: "Navigation Gallery" }}
           />
         </Stack>
       </ThemeProvider>

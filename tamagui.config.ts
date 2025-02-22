@@ -1,33 +1,18 @@
-import { defaultConfig } from '@tamagui/config/v4'
-import { createTamagui, createTokens } from 'tamagui'
+import { defaultConfig } from "@tamagui/config/v4";
+import { createTamagui, createTokens } from "tamagui";
+import { tokens } from "./src/utils/tamagui-config/tokens/token";
+import { themes } from "./src/utils/tamagui-config/theme/theme";
 
-export const tokens = createTokens({
-  ...defaultConfig.tokens,
-  space: {
-    sm: 4,
-    md: 8,
-    lg: 12,
-    xl: 16,
-    "2xl": 24,
-    "3xl": 32,
-    "4xl": 40,
-    "5xl": 48,
-    "7xl": 64,
-    true: 8
-  }
-})
+export const tamaguiConfig = createTamagui({
+  ...defaultConfig,
+  tokens: tokens,
+  themes: themes,
+});
 
-export const tamaguiConfig = createTamagui(
-  {
-    ...defaultConfig,
-    tokens: tokens,
-  }
-)
+export default tamaguiConfig;
 
-export default tamaguiConfig
+export type Conf = typeof tamaguiConfig;
 
-export type Conf = typeof tamaguiConfig
-
-declare module 'tamagui' {
+declare module "tamagui" {
   interface TamaguiCustomConfig extends Conf {}
 }

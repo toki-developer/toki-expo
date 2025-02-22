@@ -1,0 +1,12 @@
+{
+  "typescript.preferences.quoteStyle": "double",
+  // "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": [
+    "source.addMissingImports",
+    "source.fixAll.eslint"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+
+// TODO: コピペしただけなので後で調整する
